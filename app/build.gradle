@@ -16,6 +16,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -25,4 +30,10 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+	compile 'io.reactivex:rxandroid:1.2.1'
+	// Because RxAndroid releases are few and far between, it is recommended you also
+	// explicitly depend on RxJava's latest version for bug fixes and new features.
+	compile 'io.reactivex:rxjava:1.1.6'
+	compile 'com.jakewharton.rxbinding:rxbinding:1.0.1'
+    compile 'com.google.android:flexbox:0.3.2'
 }
