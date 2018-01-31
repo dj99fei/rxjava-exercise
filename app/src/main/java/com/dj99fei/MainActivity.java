@@ -1,62 +1,49 @@
 package com.dj99fei;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import rx.Observable;
-import rx.Subscriber;
+import rx.functions.Actions;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity {
+
+    private Observable<Integer> natureNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fromView(R.id.double_click)
-                .lift(new DoubleClickOperator())
-                .map(a -> 1)
-                .doOnNext(avoid -> {
-                    Toast.makeText(this, "double clicked", Toast.LENGTH_SHORT).show();
-                })
-                .subscribe();
+        addSubscription(
+                fromView(R.id.double_click)
+                        .lift(new DoubleClickOperator())
+                        .map(a -> 1)
+                        .doOnNext(avoid -> {
+                            Toast.makeText(this, "double clicked", Toast.LENGTH_SHORT).show();
+                        })
+                        .subscribe()
+        );
 
+        natureNum = generate(Observable.empty(), 1);
+
+        fromView(R.id.nature_number)
+                .map(avoid -> 1)
+                .flatMap(
+                        o ->
+                        natureNum
+//                            .take(10)
+                                .doOnNext(i -> Log.e(MainActivity.class.getSimpleName(), String.valueOf(i)))
+
+                ).subscribe(Actions.empty(), throwable -> {
+            throwable.printStackTrace();
+        });
     }
 
-    class DoubleClickOperator implements Observable.Operator<Void, Void> {
-
-        private long last = -1;
-
-        @Override
-        public Subscriber<? super Void> call(Subscriber<? super Void> child) {
-
-            Subscriber<? super Void> s = new Subscriber<Void>() {
-                @Override
-                public void onCompleted() {
-                    child.onCompleted();
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    child.onError(e);
-
-                }
-
-                @Override
-                public void onNext(Void a) {
-                    if (last == -1) {
-                        last = System.currentTimeMillis();
-                    } else if (System.currentTimeMillis() - last < 1000) {
-                        child.onNext(a);
-                        last = -1;
-                    } else {
-                        last = -1;
-                    }
-                }
-            };
-            child.add(s);
-            return s;
-        }
+    Observable<Integer> generate(Observable<Integer> source, int initValue) {
+        return source.mergeWith(Observable.defer(() -> generate(Observable.just(initValue), initValue + 1)))
+                .subscribeOn(Schedulers.computation());
     }
-
 }

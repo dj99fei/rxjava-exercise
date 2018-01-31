@@ -9,7 +9,7 @@
     app:alignContent="flex_start" >
 
     <Button
-        android:id="@+id/delay_construct"
+        android:id="@+id/nature_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="delay construct"/>
