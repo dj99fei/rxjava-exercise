@@ -8,12 +8,14 @@ import rx.Subscriber;
  */
 class DoubleClickOperator implements Observable.Operator<Void, Void> {
 
-    private long last = -1;
 
     @Override
     public Subscriber<? super Void> call(Subscriber<? super Void> child) {
 
         Subscriber<? super Void> s = new Subscriber<Void>() {
+
+            private long last = -1;
+
             @Override
             public void onCompleted() {
                 child.onCompleted();

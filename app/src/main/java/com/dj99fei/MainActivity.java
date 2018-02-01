@@ -5,8 +5,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 import rx.Observable;
+import rx.Observer;
 import rx.functions.Actions;
+import rx.internal.operators.OnSubscribeDoOnEach;
+import rx.internal.util.ActionObserver;
 import rx.schedulers.Schedulers;
+
+import static rx.Observable.create;
 
 public class MainActivity extends BaseActivity {
 
@@ -18,14 +23,30 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         addSubscription(
-                fromView(R.id.double_click)
+                fromView(R.id.double_click_1)
                         .lift(new DoubleClickOperator())
-                        .map(a -> 1)
                         .doOnNext(avoid -> {
                             Toast.makeText(this, "double clicked", Toast.LENGTH_SHORT).show();
                         })
                         .subscribe()
         );
+
+        addSubscription(
+                create(new OnSubscribeDoubleClick(fromView(R.id.double_click_2)))
+                        .doOnNext(avoid -> {
+                            Toast.makeText(this, "double clicked", Toast.LENGTH_SHORT).show();
+                        })
+                        .subscribe()
+        );
+
+        Observer<Void> observer = new ActionObserver<>(aVoid -> Toast.makeText(this, "double clicked", Toast.LENGTH_SHORT).show(), Actions.empty(), Actions.empty());
+
+        addSubscription(
+                create(new OnSubscribeDoOnEach<>(
+                        create(new OnSubscribeDoubleClick(
+                                create(new ViewClickOnSubscribe(findViewById(R.id.double_click_3))))), observer)).subscribe()
+        );
+
 
         natureNum = generate(Observable.empty(), 1);
 
@@ -33,9 +54,9 @@ public class MainActivity extends BaseActivity {
                 .map(avoid -> 1)
                 .flatMap(
                         o ->
-                        natureNum
+                                natureNum
 //                            .take(10)
-                                .doOnNext(i -> Log.e(MainActivity.class.getSimpleName(), String.valueOf(i)))
+                                        .doOnNext(i -> Log.e(MainActivity.class.getSimpleName(), String.valueOf(i)))
 
                 ).subscribe(Actions.empty(), throwable -> {
             throwable.printStackTrace();

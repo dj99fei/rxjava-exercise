@@ -15,8 +15,20 @@
         android:text="delay construct"/>
 
     <Button
-        android:id="@+id/double_click"
+        android:id="@+id/double_click_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="double click"/>
+        android:text="double click(lift)"/>
+
+    <Button
+        android:id="@+id/double_click_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="double click(OnSubscribe)"/>
+
+    <Button
+        android:id="@+id/double_click_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="double click(totally expand)"/>
 </com.google.android.flexbox.FlexboxLayout>
