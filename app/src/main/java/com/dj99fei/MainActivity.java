@@ -20,6 +20,7 @@ import java.util.Random;
 
 import rx.Observable;
 import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Actions;
 import rx.internal.operators.OnSubscribeDoOnEach;
 import rx.internal.util.ActionObserver;
@@ -99,7 +100,6 @@ public class MainActivity extends BaseActivity {
                 .doOnError(throwable -> Toast.makeText(this, "error", Toast.LENGTH_SHORT).show())
                 .retry()
                 .subscribe();
-
 
         addSubscription(
                 fromView(R.id.sqrt)
