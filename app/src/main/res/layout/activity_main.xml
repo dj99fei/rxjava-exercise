@@ -31,4 +31,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="double click(totally expand)"/>
+
+    <Button
+        android:id="@+id/retry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="retry"/>
+
+    <Button
+        android:id="@+id/retry_continually"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="retry_continually"/>
+    <Button
+        android:id="@+id/sqrt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sqrt"/>
+    <EditText
+        android:id="@+id/withdraw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"/>
+    <Button
+        android:id="@+id/balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="balance"/>
 </com.google.android.flexbox.FlexboxLayout>

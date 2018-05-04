@@ -14,4 +14,27 @@ public class ExampleUnitTest {
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
     }
+
+    @Test
+    public void testSqrt() {
+        System.out.println(Sqrter.sqrt(3));
+    }
+
+    public static class Sqrter {
+
+        static float sqrtImprove(float guess, int x) {
+            return ((x / guess) + guess) / 2;
+        }
+
+        public static float sqrt(int x) {
+            int time = 0;
+            float result = 1.0f;
+            while (true) {
+                result = sqrtImprove(result, x);
+                if (++time == 3) {
+                    return result;
+                }
+            }
+        }
+    }
 }
